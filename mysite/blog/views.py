@@ -22,9 +22,7 @@ class PostListView(ListView):
     template_name = 'blog/post/list.html'
 
 
-
 def post_share(request, post_id):
-
     post = get_object_or_404(Post, id=post_id, status='published')
     sent = False
     if request.method == 'POST':
