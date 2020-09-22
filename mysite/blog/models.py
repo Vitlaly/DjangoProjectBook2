@@ -22,6 +22,7 @@ class Post(models.Model):
     objects = models.Manager()  # Менеджер по умолчанию.
     published = PublishedManager() # Наш новый менеджер.
     tag = TaggableManager()
+
     class Meta:
         ordering = ('-publish',)
 
