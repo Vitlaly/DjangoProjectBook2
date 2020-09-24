@@ -1,17 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-from django.core.mail import send_mail
 from django.http import HttpResponse
 from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
-from .models import Post
-from .forms import EmailPostForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic import ListView
 from django.core.mail import send_mail
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # class PostListView(ListView):
 #     queryset = Post.published.all()
