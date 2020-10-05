@@ -14,7 +14,15 @@
     </h2>
     <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
     {{ post.body|truncatewords:30|linebreaks }}
-    <p class="tags">Tags: {{ post.tag.all|join:"," }}</p>
+    <p class="tags">
+        Tags:
+        {% for tag in post.tag.all %}
+        <a href="{% url 'blog:post_list_by_tag' tag.slug %}">
+        {{ tag.name }}
+        </a>
+        {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        </p>
 {% endfor %}
 
 
