@@ -34,4 +34,12 @@ Comment {{ forloop.counter }} by {{ comment.name }}
 <p><input type="submit" value="Add comment"></p>
 </form>
 {% endif %}
+<h2>Similar posts</h2>
+{% for posts in similar_posts %}
+ <h2>
+    <a href="{{ posts.get_absolute_url }}">{{ posts.title }}</a>
+    </h2>
+
+{% endfor %}
+
 {% endblock %}

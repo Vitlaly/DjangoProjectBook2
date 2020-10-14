@@ -6,7 +6,7 @@ from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.db.models import Count
 
 # class PostListView(ListView):
 #     queryset = Post.published.all()
@@ -53,6 +53,9 @@ def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month, publish__day=day)
     comments = post.comments.filter(active=True)
     new_comment = None
+    post_tags_ids = post.tag.values_list('id', flat=True)
+    similar_posts = Post.published.filter(tag__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tag=Count('tag')).order_by('-same_tag', '-publish')[:4]
     if request.method == 'POST':
         # Пользователь отправил комментарий.
         comment_form = CommentForm(data=request.POST)
@@ -66,7 +69,8 @@ def post_detail(request, year, month, day, post):
         else:
             comment_form = CommentForm()
         return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment, 'comment_form': comment_form})
-    return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment})
+
+    return render(request, 'blog/post/detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment, 'similar_posts': similar_posts})
 
 
 
