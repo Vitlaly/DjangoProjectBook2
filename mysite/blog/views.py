@@ -18,11 +18,11 @@ from django.db.models import Count
 def post_list(request, tag_slug=None):
     object_list = Post.published.all()
     tag = None
+    paginator = Paginator(object_list, 3)  # По 3 статьи на каждой странице.
+    page = request.GET.get('page')
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         object_list = object_list.filter(tag__in=[tag])
-    paginator = Paginator(object_list, 3)  # По 3 статьи на каждой странице.
-    page = request.GET.get('page')
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
