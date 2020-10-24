@@ -23,6 +23,7 @@ def post_list(request, tag_slug=None):
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         object_list = object_list.filter(tag__in=[tag])
+        paginator = Paginator(object_list, 2)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
