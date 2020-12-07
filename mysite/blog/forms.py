@@ -15,3 +15,6 @@ class CommentForm(forms.ModelForm):
         fields = ('name', 'email', 'body')
         comments = forms.CharField(required=False, widget=forms.Textarea)
 
+
+class SearchForm(forms.Form):
+    query = forms.CharField()
